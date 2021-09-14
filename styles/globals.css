@@ -29,3 +29,10 @@ h1.elegantshadow {
     font-size: 1.5rem;
     font-weight: 10;
 }
+video {
+    width: 100%;
+    border-radius: 1em;
+    margin: 1em 0;
+    margin-bottom: 2em;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+}
