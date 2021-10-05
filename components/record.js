@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import useScreenRecorder from "use-screen-recorder";
 import Button from "@material-ui/core/Button"
 
+
 function Recorder() {
     const videoRef = useRef();
     const [link, setLink] = useState();
@@ -47,7 +48,6 @@ function Recorder() {
             console.error(error);
         }
     }
-
     return (
         <div>
             <h1 className='elegantshadow'>Screen Recorder</h1>
@@ -102,7 +102,6 @@ function Recorder() {
 
                 )}
             </div>
-       
         </div>
     )
 } export default Recorder;
