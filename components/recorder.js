@@ -4,7 +4,9 @@ import Button from "@material-ui/core/Button"
 
 function Recorder() {
     const videoRef = useRef();
-    // const [video, setVideo] = useState();
+    const [link, setLink] = useState();
+
+    let arr = []
 
     const {
         blobUrl,
@@ -16,8 +18,8 @@ function Recorder() {
         stopRecording,
     } = useScreenRecorder({ audio: true });
 
-    
-    
+
+
     async function handleVideo() {
         let blob = await fetch(blobUrl).then(r => r.blob());
         var reader = new FileReader();
@@ -28,33 +30,36 @@ function Recorder() {
         }
     }
     async function handleUpload(video) {
-    try {
-        fetch("/api/upload", {
-            method: "POST",
-            body: JSON.stringify({ data: video }),
-            headers: { "Content-Type": "application/json" },
-        })
-        // .then((response) => {
-        //     console.log("response", name, response.status)
-        //     response.json().then((data) => {
-        //         cardurl.push(data.data);
-        //         // console.log("cardurl", cardurl)
-        //         setupCard(cardurl)
-        //     });
-        // });
-    } catch (error) {
-        console.error(error);
+        try {
+            fetch("/api/upload", {
+                method: "POST",
+                body: JSON.stringify({ data: video }),
+                headers: { "Content-Type": "application/json" },
+            })
+                .then((response) => {
+                    console.log("response", response.status)
+                    response.json().then((data) => {
+                        arr.push(data)
+                        handleLink(arr[0])
+                    });
+                });
+        } catch (error) {
+            console.error(error);
+        }
     }
-    }
-    
 
+    function handleLink(url){
+        setLink(url.data)        
+
+    }
     return (
         <div>
 
             <h1 className='elegantshadow'>Screen Recorder</h1>
+            {/* <Button onClick={handleLink}>link</Button> */}
             <div className='status'>
                 Status: {status}<br /><br />
-                Video Link: {blobUrl || "Waiting..."}
+                Video Link: {link || "Waiting..."}
             </div>
             <div>
                 <video
@@ -86,7 +91,7 @@ function Recorder() {
                         onClick={() => {
                             resetRecording();
                             videoRef.current.load();
-                        }} 
+                        }}
                         variant='contained' color='primary'
                     >
                         Reset recording
