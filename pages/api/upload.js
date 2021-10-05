@@ -19,6 +19,20 @@ export default async function handler(req, res) {
     const fileStr = req.body.data;
 
     if (req.method === "POST") {
-        console.log("backend received", fileStr.length);
+        console.log("backend received", fileStr);
+    //     try {
+    //         const uploadedResponse = await cloudinary.uploader.upload_large(
+    //             fileStr,
+    //             {
+    //                 resource_type: "video",
+    //                 chunk_size: 6000000,
+    //             }
+    //         );
+    //     } catch (error) {
+    //         console.log("error", error);
+    //         res.status(500).json({ error: "Something wrong" });
+    //     }
+    //     res.status(200).json("backend complete");
+    //     console.log("upload complete");
     }
 }

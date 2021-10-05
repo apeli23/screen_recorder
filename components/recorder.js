@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import useScreenRecorder from "use-screen-recorder";
 import Button from "@material-ui/core/Button"
 
 function Recorder() {
     const videoRef = useRef();
+    // const [video, setVideo] = useState();
 
     const {
         blobUrl,
@@ -16,13 +17,42 @@ function Recorder() {
     } = useScreenRecorder({ audio: true });
 
     
-    function handleUpload() {
-         console.log(blobUrl);
+    
+    async function handleVideo() {
+        
+        let blob = await fetch(blobUrl).then(r => r.blob());
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+            var base64data = reader.result;
+            handleUpload(base64data);
+        }
     }
+    async function handleUpload(video) {
+    console.log('video', video);
+    try {
+        fetch("/api/upload", {
+            method: "POST",
+            body: JSON.stringify({ data: video }),
+            headers: { "Content-Type": "application/json" },
+        })
+        // .then((response) => {
+        //     console.log("response", name, response.status)
+        //     response.json().then((data) => {
+        //         cardurl.push(data.data);
+        //         // console.log("cardurl", cardurl)
+        //         setupCard(cardurl)
+        //     });
+        // });
+    } catch (error) {
+        console.error(error);
+    }
+    }
+    
 
     return (
         <div>
-            
+
             <h1 className='elegantshadow'>Screen Recorder</h1>
             <div className='status'>
                 Status: {status}<br /><br />
@@ -58,21 +88,21 @@ function Recorder() {
                         onClick={() => {
                             resetRecording();
                             videoRef.current.load();
-                        }}
+                        }} 
                         variant='contained' color='primary'
                     >
                         Reset recording
                     </Button>
-                     
+
                 )}{' '}
                 {status === "stopped" && (
                     <Button
-                        onClick={handleUpload}
+                        onClick={handleVideo}
                         variant='contained' color='primary'
                     >
                         Upload Recording
                     </Button>
-                     
+
                 )}
             </div>
         </div>
