@@ -19,7 +19,6 @@ function Recorder() {
     
     
     async function handleVideo() {
-        
         let blob = await fetch(blobUrl).then(r => r.blob());
         var reader = new FileReader();
         reader.readAsDataURL(blob);
@@ -29,7 +28,6 @@ function Recorder() {
         }
     }
     async function handleUpload(video) {
-    console.log('video', video);
     try {
         fetch("/api/upload", {
             method: "POST",
