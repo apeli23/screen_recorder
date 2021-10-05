@@ -16,17 +16,13 @@ function Recorder() {
     } = useScreenRecorder({ audio: true });
 
     
-    function uploadVideo() {
-        var reader = new FileReader();
-        reader.readAsDataURL(blobUrl);
-        reader.onloadend = function () {
-            var base64data = reader.result;
-            console.log(base64data);
-        }
+    function handleUpload() {
+         console.log(blobUrl);
     }
 
     return (
         <div>
+            
             <h1 className='elegantshadow'>Screen Recorder</h1>
             <div className='status'>
                 Status: {status}<br /><br />
@@ -67,6 +63,16 @@ function Recorder() {
                     >
                         Reset recording
                     </Button>
+                     
+                )}{' '}
+                {status === "stopped" && (
+                    <Button
+                        onClick={handleUpload}
+                        variant='contained' color='primary'
+                    >
+                        Upload Recording
+                    </Button>
+                     
                 )}
             </div>
         </div>
